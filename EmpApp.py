@@ -36,7 +36,7 @@ def AddEmp():
     stud_id = request.form['stud_id']
     stud_name = request.form['stud_name']
     stud_gender = request.form['stud_gender']
-    stud_IC = request.form['identity_Number']
+    stud_IC = request.form['stud_ic']
     stud_email = request.form['stud_mail']
     stud_HP = request.form['stud_phone']
     stud_currAddress = request.form['stud_currAddress']
@@ -50,7 +50,7 @@ def AddEmp():
     
 
 
-    insert_sql = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s ,%.2lf, %s ,%s)"
+    insert_sql = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s ,%s, %s ,%s)"
     cursor = db_conn.cursor()
 
     if stud_image_file.filename == "":
