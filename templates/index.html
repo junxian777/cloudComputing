@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Account registration form</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet'
+        type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- <script src="script.js"></script> -->
+</head>
+
+<body>
+    <div class="main-block">
+        <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+            <h1>Create a free account</h1>
+            <fieldset>
+                <legend>
+                    <h3>Account Details</h3>
+                </legend>
+                <div class="account-details">
+                    <div><label>Student ID*</label><input type="text" name="stud_id" required></div>
+                    <div><label>Password*</label><input type="text" name="password" required></div>
+                    <div><label>Student Name*</label><input type="text" name="stud_name" required></div>
+                    <div><label>Repeat password*</label><input type="text" name="repeat-pwd" required></div>
+                    <div><label for="identityNumber">Identity (Number):</label><input type="text" id="stud_ic" name="stud_ic" placeholder="Enter identity number: 121312-12-7777" /></div>
+                    
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    <h3>Personal Details</h3>
+                </legend>
+                <div class="personal-details">
+                    <div>
+                        <div><label>Student Gmail*</label><input type="text" name="stud_mail" placeholder="jasonxxx@gmail.com" required></div>
+                        <div><label>Phone No*</label><input type="text" name="stud_phone" placeholder="011-1237777" required></div>
+                        <div><label>Current Address*</label><input type="text" name="stud_currAddress"></div>
+                        <div><label>Home Address*</label><input type="text" name="stud_homeAddress" required></div>
+                        <div><label>Student CGPA*</label><input type="number" id="stud_cgpa" name="stud_cgpa" step="0.01" pattern="[0-9]+(\.[0-9]+)?" placeholder="Enter a number with up to 2 decimal places" required></div>
+                        <div>
+                            <label>State*</label>
+                            <select>
+                                <option value="Others">Others</option>
+                                <option value="Johor">Johor</option>
+                                <option value="Kedah">Kedah</option>
+                                <option value="Kelantan">Kelantan</option>
+                                <option value="Melaka">Melaka</option>
+                                <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                <option value="Pahang">Pahang</option>
+                                <option value="Perak">Perak</option>
+                                <option value="Perlis">Perlis</option>
+                                <option value="Pulau Pinang">Pulau Pinang</option>
+                                <option value="Sabah">Sabah</option>
+                                <option value="Sarawak">Sarawak</option>
+                                <option value="Selangor">Selangor</option>
+                                <option value="Terengganu">Terengganu</option>
+                                <option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur</option>
+                                <option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option>
+                                <option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
+                            </select>
+                        </div>
+                        <div><label>Student Programme</label><input type="text" name="stud_program" placeholder="FOCS"></div>
+                    </div>
+                    <div>
+                        <div><label>Gender*</label><input type="text" name="stud_gender" required></div>
+                        <div><label>Lecture ID*</label><input type="text" name="lec_id" required></div>
+                        <div><label>Company ID*</label><input type="text" name="com_id" required></div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    <h3>Upload Resume</h3>
+                </legend>
+                <div>
+                    <label for="fileupload">Upload your file*</label>
+                    <input id="stud_image_file" name="stud_image_file" type="file" required>
+                    <!-- <button id="choose-file-button" onclick="chooseFile()">Choose File</button>
+                    <button id="upload-button" onclick="saveFile()">Upload</button> -->
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    <h3>Terms and Mailing</h3>
+                </legend>
+                <div class="terms-mailing">
+                    <div class="checkbox">
+                        <input type="checkbox" name="checkbox"><span>I accept the <a
+                                href="https://www.w3docs.com/privacy-policy">Privacy Policy for W3Docs.</a></span>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="checkbox"><span>I want to recelve personallzed offers by your
+                            site</span>
+                    </div>
+            </fieldset>
+            <button type="submit" href="/">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>
