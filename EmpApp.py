@@ -31,7 +31,7 @@ def about():
     return render_template('www.tarc.edu.my')
 
 
-@app.route("/addemp", methods=['POST'])
+@app.route("/addemp", methods=['GET', 'POST'])
 def AddEmp():
     stud_id = request.form['stud_id']
     stud_name = request.form['stud_name']
