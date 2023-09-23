@@ -3,7 +3,6 @@ from pymysql import connections
 import os
 import boto3
 from config import *
-import mimetypes
 
 app = Flask(__name__)
 
@@ -67,9 +66,9 @@ def AddEmp():
         s3 = boto3.resource('s3')
 
         try:
-            content_type, _ = mimetypes.guess_type(stud_image_file_name_in_s3)
+
             print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=stud_image_file_name_in_s3, Body=stud_image_file, ContentType=content_type)
+            s3.Bucket(custombucket).put_object(Key=stud_image_file_name_in_s3, Body=stud_image_file, ContentType='application/pdf')
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
