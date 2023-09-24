@@ -60,7 +60,7 @@ def AddEmp():
     try:
 
         cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, 
-                                    stud_image_file.filename ,stud_pwd, stud_cgpa, lec_email ,com_email))
+                                    stud_image_file ,stud_pwd, stud_cgpa, lec_email ,com_email))
         db_conn.commit()
         
         # Securely generate a unique filename for the resume
