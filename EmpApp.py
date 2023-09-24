@@ -69,7 +69,7 @@ def AddEmp():
         
         # Uplaod image file in S3 #
         #stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf"
-        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf.pdf"
+        stud_image_file_name_in_s3 = "stud-id-" + str(stud_email) + "_pdf.pdf"
         s3 = boto3.resource('s3')
 
         try:
