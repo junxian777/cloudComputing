@@ -138,14 +138,14 @@ button {
     margin: 10px auto;
     border-radius: 5px;
     border: none;
-    background: #8ebf42;
+    background: #0770f9;
     font-size: 14px;
     font-weight: 600;
     color: #fff;
 }
 
 button:hover {
-    background: #82b534;
+    background: #3118d9;
 }
 
 @media (min-width: 568px) {
