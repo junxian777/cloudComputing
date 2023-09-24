@@ -3,6 +3,7 @@ from pymysql import connections
 import os
 import boto3
 from config import *
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
