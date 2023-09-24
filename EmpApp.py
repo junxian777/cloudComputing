@@ -64,11 +64,11 @@ def AddEmp():
         db_conn.commit()
         
         # Securely generate a unique filename for the resume
-        updated_resume_filename = secure_filename(stud_image_file.filename)
+        #updated_resume_filename = secure_filename(stud_image_file.filename)
         
         # Uplaod image file in S3 #
         #stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf"
-        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf/" + updated_resume_filename
+        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf.pdf"
         s3 = boto3.resource('s3')
 
         try:
