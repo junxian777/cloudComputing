@@ -52,14 +52,14 @@ def AddEmp():
         return "Please select a file"
 
     try:
-        cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, stud_pwd, stud_cgpa, lec_email, com_email))
+        cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, stud_image_file.filename, stud_pwd, stud_cgpa, lec_email, com_email))
         db_conn.commit()
 
         # Securely generate a unique filename for the resume
         updated_resume_filename = secure_filename(stud_image_file.filename)
 
         # Uplaod image file in S3
-        stud_image_file_name_in_s3 = f"stud-id-{stud_id}_pdf.pdf"
+        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf/" + updated_resume_filename
         s3 = boto3.resource('s3')
 
         try:
