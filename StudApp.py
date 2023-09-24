@@ -25,7 +25,7 @@ table = 'student'
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
+    return render_template('studentRegisterForm.html')
 
 
 @app.route("/about", methods=['POST'])
