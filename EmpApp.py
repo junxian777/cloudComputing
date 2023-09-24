@@ -50,7 +50,7 @@ def AddEmp():
     
 
 
-    insert_sql = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s ,%s, %s ,%s)"
+    insert_sql = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s ,%s, %s)"
     cursor = db_conn.cursor()
 
     if stud_image_file.filename == "":
