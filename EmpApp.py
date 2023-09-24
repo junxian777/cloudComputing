@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pymysql import connections
 import os
 import boto3
+from werkzeug.utils import secure_filename  # Import secure_filename
 from config import *
 
 app = Flask(__name__)
@@ -58,11 +59,16 @@ def AddEmp():
 
     try:
 
-        cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, stud_image_file ,stud_pwd, stud_cgpa, lec_email ,com_email))
+        cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, 
+                                    stud_image_file.filename ,stud_pwd, stud_cgpa, lec_email ,com_email))
         db_conn.commit()
-        #emp_name = "" + first_name + " " + last_name
+        
+        # Securely generate a unique filename for the resume
+        updated_resume_filename = secure_filename(stud_image_file.filename)
+        
         # Uplaod image file in S3 #
-        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf"
+        #stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf"
+        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf/" + updated_resume_filename
         s3 = boto3.resource('s3')
 
         try:
@@ -76,10 +82,12 @@ def AddEmp():
             else:
                 s3_location = '-' + s3_location
 
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                stud_image_file_name_in_s3)
+            object_url = f"https://{custombucket}.s3.amazonaws.com/{stud_image_file_name_in_s3}"
+
+            # object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+            #     s3_location,
+            #     custombucket,
+            #     stud_image_file_name_in_s3)
 
         except Exception as e:
             return str(e)
@@ -88,7 +96,7 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('appStudOutput.html', name=stud_name)
+    return render_template('appStudOutput.html', name=stud_name, object_url=object_url)
         #return to xinyi
 
 if __name__ == '__main__':
