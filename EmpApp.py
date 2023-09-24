@@ -31,7 +31,7 @@ def about():
     return render_template('www.tarc.edu.my')
 
 
-@app.route("/addemp", methods=['GET', 'POST'])
+@app.route("/addemp", methods=['POST'])
 def AddEmp():
     stud_id = request.form['stud_id']
     stud_name = request.form['stud_name']
@@ -53,43 +53,59 @@ def AddEmp():
     insert_sql = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s ,%s, %s ,%s)"
     cursor = db_conn.cursor()
 
-    if stud_image_file.filename == "":
-        return "Please select a file"
+    # Check if an updated resume file was uploaded
+    if 'stud_image_file' in request.files:
+        updated_resume = request.files['stud_image_file']
 
-    try:
+        # Check if the file has a filename
+        if updated_resume.filename != '':
+            # Get the file extension (e.g., ".pdf", ".doc", ".docx")
+            file_extension = os.path.splitext(updated_resume.filename)[1]
 
-        cursor.execute(insert_sql, (stud_id, stud_name, stud_gender, stud_IC, stud_email, stud_HP, stud_currAddress, stud_homeAddress, stud_programme, stud_image_file ,stud_pwd, stud_cgpa, lec_email ,com_email))
-        db_conn.commit()
-        #emp_name = "" + first_name + " " + last_name
-        # Uplaod image file in S3 #
-        stud_image_file_name_in_s3 = "stud-id-" + str(stud_id) + "_pdf.pdf"
-        s3 = boto3.resource('s3')
+            # Check if the file extension is allowed (PDF, DOC, DOCX, etc.)
+            allowed_extensions = ['.pdf', '.doc', '.docx']  # Add more extensions as needed
+            if file_extension.lower() not in allowed_extensions:
+                return "File type not allowed. Please upload a PDF, DOC, or DOCX file."
 
-        try:
+            # Securely generate a unique filename for the resume
+            updated_resume_filename = secure_filename(updated_resume.filename)
 
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=stud_image_file_name_in_s3, Body=stud_image_file, ContentType='application/pdf')
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
+            # Determine the content type based on the file extension
+            content_type = "application/pdf"  # Default to PDF
+            if file_extension.lower() == '.doc':
+                content_type = "application/msword"
+            elif file_extension.lower() == '.docx':
+                content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
+            # Upload the resume to S3 with the appropriate content type
+            s3 = boto3.resource('s3')
+            try:
+                s3.Bucket(custombucket).put_object(
+                    Key=updated_resume_filename,
+                    Body=updated_resume,
+                    ContentType=content_type
+                )
 
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                stud_image_file_name_in_s3)
+                # Construct the URL to the uploaded resume
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3_location = (bucket_location['LocationConstraint'])
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
+                updated_resume_url = f"https://s3{s3_location}.amazonaws.com/{custombucket}/{updated_resume_filename}"
+            except Exception as e:
+                return str(e)
+            finally:
+                cursor.close()
+        else:
+            # Handle the case where the file has no filename
+            updated_resume_url = None
+    else:
+        updated_resume_url = updated_resume_url
 
-        except Exception as e:
-            return str(e)
-
-    finally:
-        cursor.close()
-
-    print("all modification done...")
-    return render_template('appStudOutput.html', name=stud_name)
+        print("all modification done...")
+        return render_template('appStudOutput.html', name=stud_name)
         #return to xinyi
 
 if __name__ == '__main__':
